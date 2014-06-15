@@ -1,0 +1,21 @@
+<stylecopresultscache>
+  <version>10</version>
+  <project key="1325563105">
+    <configuration>DEBUG;TRACE</configuration>
+  </project>
+  <sourcecode name="Flow.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>06/15/2014 19:32:22</timestamp>
+      <milliseconds>236</milliseconds>
+    </settings>
+    <timestamp>06/15/2014 19:35:13</timestamp>
+    <milliseconds>136</milliseconds>
+    <violations>
+      <violation namespace="Microsoft.StyleCop.CSharp.OrderingRules" rule="ElementsMustAppearInTheCorrectOrder" ruleCheckId="SA1201">
+        <context>All methods must be placed after all constructors.</context>
+        <line>10</line>
+        <warning>False</warning>
+      </violation>
+    </violations>
+  </sourcecode>
+</stylecopresultscache>
