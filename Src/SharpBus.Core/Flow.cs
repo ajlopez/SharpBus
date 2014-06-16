@@ -19,6 +19,12 @@
             return this;
         }
 
+        public Flow Process(Action<object> process)
+        {
+            this.steps.Add(x => { process(x); return x; });
+            return this;
+        }
+
         public object Send(object payload)
         {
             foreach (var step in this.steps)

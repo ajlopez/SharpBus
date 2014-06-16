@@ -32,5 +32,18 @@
 
             Assert.AreEqual(2, flow.Send(1));
         }
+
+        [TestMethod]
+        public void ApplyProcess()
+        {
+            int total = 0;
+
+            var flow = Flow.Create().Process(x => total += (int)x);
+
+            flow.Send(1);
+            flow.Send(2);
+
+            Assert.AreEqual(3, total);
+        }
     }
 }
