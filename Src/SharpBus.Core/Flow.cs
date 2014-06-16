@@ -25,12 +25,32 @@
             return this;
         }
 
+        public Flow Output(Action<object> process)
+        {
+            this.steps.Add(x => { process(x); return null; });
+            return this;
+        }
+
         public object Send(object payload)
         {
             foreach (var step in this.steps)
+            {
                 payload = step(payload);
+                if (payload == null)
+                    break;
+            }
 
             return payload;
+        }
+
+        public void Post(object payload)
+        {
+            foreach (var step in this.steps)
+            {
+                payload = step(payload);
+                if (payload == null)
+                    break;
+            }
         }
 
         public static Flow Create()

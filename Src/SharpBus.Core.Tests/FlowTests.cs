@@ -26,6 +26,18 @@
         }
 
         [TestMethod]
+        public void SendPayloadToFlowWithOutput()
+        {
+            string result = null;
+
+            var flow = Flow.Create()
+                .Output(x => result = (string)x);
+
+            Assert.IsNull(flow.Send("foo"));
+            Assert.AreEqual("foo", result);
+        }
+
+        [TestMethod]
         public void ApplyTransformToInteger()
         {
             var flow = Flow.Create().Transform(x => ((int)x) + 1);
@@ -44,6 +56,20 @@
             flow.Send(2);
 
             Assert.AreEqual(3, total);
+        }
+
+        [TestMethod]
+        public void PostTransformWithOutput()
+        {
+            int result = 0;
+
+            var flow = Flow.Create()
+                .Transform(x => (int)x + 1)
+                .Output(x => result = (int)x);
+
+            flow.Post(1);
+
+            Assert.AreEqual(2, result);
         }
     }
 }
