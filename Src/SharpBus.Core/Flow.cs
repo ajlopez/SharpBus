@@ -13,6 +13,11 @@
         {
         }
 
+        public static Flow Create()
+        {
+            return new Flow();
+        }
+
         public Flow Transform(Func<object, object> transform)
         {
             this.steps.Add(transform);
@@ -51,11 +56,6 @@
                 if (payload == null)
                     break;
             }
-        }
-
-        public static Flow Create()
-        {
-            return new Flow();
         }
     }
 }

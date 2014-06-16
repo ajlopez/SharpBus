@@ -21,7 +21,8 @@ Open `Src\SharpBus.sln` in Visual Studio
 
 ## References
 
-TBD
+- [Mule Software Wikipedia](http://en.wikipedia.org/wiki/Mule_(software))
+- [What is Mule ESB?](http://www.mulesoft.org/what-mule-esb)
 
 ## License
 
