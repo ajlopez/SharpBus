@@ -7,7 +7,7 @@
 
     public class Flow
     {
-        private IList<Func<object, object>> steps = new List<Func<object, object>>();
+        private IList<Func<Message, Message>> steps = new List<Func<Message, Message>>();
 
         private Flow()
         {
@@ -20,40 +20,47 @@
 
         public Flow Transform(Func<object, object> transform)
         {
-            this.steps.Add(transform);
+            this.steps.Add(msg => { msg.Payload = transform(msg.Payload); return msg; });
             return this;
         }
 
         public Flow Process(Action<object> process)
         {
-            this.steps.Add(x => { process(x); return x; });
+            this.steps.Add(msg => { process(msg.Payload); return msg; });
             return this;
         }
 
         public Flow Output(Action<object> process)
         {
-            this.steps.Add(x => { process(x); return null; });
+            this.steps.Add(msg => { process(msg.Payload); return null; });
             return this;
         }
 
         public object Send(object payload)
         {
+            Message message = new Message(payload);
+
             foreach (var step in this.steps)
             {
-                payload = step(payload);
-                if (payload == null)
+                message = step(message);
+                if (message == null)
                     break;
             }
 
-            return payload;
+            if (message == null)
+                return null;
+
+            return message.Payload;
         }
 
         public void Post(object payload)
         {
+            Message message = new Message(payload);
+
             foreach (var step in this.steps)
             {
-                payload = step(payload);
-                if (payload == null)
+                message = step(message);
+                if (message == null)
                     break;
             }
         }
