@@ -46,6 +46,14 @@
         }
 
         [TestMethod]
+        public void ApplyTransformer()
+        {
+            var flow = Flow.Create().Transform(new IncrementTransformer());
+
+            Assert.AreEqual(2, flow.Send(1));
+        }
+
+        [TestMethod]
         public void ApplyProcess()
         {
             int total = 0;
@@ -70,6 +78,14 @@
             flow.Post(1);
 
             Assert.AreEqual(2, result);
+        }
+
+        private class IncrementTransformer : ITransformer
+        {
+            public object Transform(object payload)
+            {
+                return (int)payload + 1;
+            }
         }
     }
 }

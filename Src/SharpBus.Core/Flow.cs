@@ -24,6 +24,11 @@
             return this;
         }
 
+        public Flow Transform(ITransformer transformer)
+        {
+            return Transform(transformer.Transform);
+        }
+
         public Flow Process(Action<object> process)
         {
             this.steps.Add(msg => { process(msg.Payload); return msg; });
