@@ -67,6 +67,19 @@
         }
 
         [TestMethod]
+        public void ApplyProcessor()
+        {
+            AccumulatorProcessor processor = new AccumulatorProcessor();
+
+            var flow = Flow.Create().Process(processor);
+
+            flow.Send(1);
+            flow.Send(2);
+
+            Assert.AreEqual(3, processor.Total);
+        }
+
+        [TestMethod]
         public void PostTransformWithOutput()
         {
             int result = 0;
@@ -86,6 +99,18 @@
             {
                 return (int)payload + 1;
             }
+        }
+
+        private class AccumulatorProcessor : IProcessor
+        {
+            private int total = 0;
+
+            public void Process(object payload)
+            {
+                total += (int)payload;
+            }
+
+            public int Total { get { return this.total; } }
         }
     }
 }
