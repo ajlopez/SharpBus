@@ -38,6 +38,21 @@
         }
 
         [TestMethod]
+        public void SendPayloadToFlowWithOutputObject()
+        {
+            AccumulatorOutput output = new AccumulatorOutput();
+            string result = null;
+
+            var flow = Flow.Create()
+                .Output(output);
+
+            flow.Post(1);
+            flow.Post(2);
+
+            Assert.AreEqual(3, output.Total);
+        }
+
+        [TestMethod]
         public void ApplyTransformToInteger()
         {
             var flow = Flow.Create().Transform(x => ((int)x) + 1);
@@ -106,6 +121,18 @@
             private int total = 0;
 
             public void Process(object payload)
+            {
+                total += (int)payload;
+            }
+
+            public int Total { get { return this.total; } }
+        }
+
+        private class AccumulatorOutput : IOutput
+        {
+            private int total = 0;
+
+            public void Consume(object payload)
             {
                 total += (int)payload;
             }

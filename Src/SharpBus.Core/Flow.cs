@@ -46,6 +46,11 @@
             return this;
         }
 
+        public Flow Output(IOutput output)
+        {
+            return this.Output(output.Consume);
+        }
+
         public object Send(object payload)
         {
             Message message = new Message(payload);
