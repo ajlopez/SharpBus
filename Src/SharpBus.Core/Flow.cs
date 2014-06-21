@@ -7,10 +7,17 @@
 
     public class Flow
     {
+        private Flow parent;
         private IList<Func<Message, Message>> steps = new List<Func<Message, Message>>();
+        private IDictionary<string, Flow> branches = new Dictionary<string, Flow>();
 
         private Flow()
         {
+        }
+
+        private Flow(Flow parent)
+        {
+            this.parent = parent;
         }
 
         public static Flow Create()
@@ -40,6 +47,17 @@
             return this.Process(processor.Process);
         }
 
+        public Flow Route(Func<object, string> router)
+        {
+            this.Transform(payload =>
+            {
+                var branchname = router(payload);
+                return this.SendToBranch(branchname, payload);
+            });
+
+            return this;
+        }
+
         public Flow Output(Action<object> process)
         {
             this.steps.Add(msg => { process(msg.Payload); return null; });
@@ -49,6 +67,18 @@
         public Flow Output(IOutput output)
         {
             return this.Output(output.Consume);
+        }
+
+        public Flow Branch(string branchname)
+        {
+            Flow flow = new Flow(this);
+            this.branches[branchname] = flow;
+            return flow;
+        }
+
+        public Flow EndBranch()
+        {
+            return this.parent;
         }
 
         public object Send(object payload)
@@ -78,6 +108,11 @@
                 if (message == null)
                     break;
             }
+        }
+
+        private object SendToBranch(string branchname, object payload)
+        {
+            return this.branches[branchname].Send(payload);
         }
     }
 }
