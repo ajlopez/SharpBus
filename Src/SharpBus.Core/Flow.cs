@@ -10,6 +10,7 @@
         private Flow parent;
         private IList<Func<Message, Message>> steps = new List<Func<Message, Message>>();
         private IDictionary<string, Flow> branches = new Dictionary<string, Flow>();
+        private IList<Action<Flow>> inputs = new List<Action<Flow>>();
 
         private Flow()
         {
@@ -23,6 +24,18 @@
         public static Flow Create()
         {
             return new Flow();
+        }
+
+        public Flow Input(Action<Flow> input)
+        {
+            this.inputs.Add(input);
+            return this;
+        }
+
+        public void Start()
+        {
+            foreach (var input in this.inputs)
+                input(this);
         }
 
         public Flow Transform(Func<object, object> transform)

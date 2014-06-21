@@ -41,7 +41,6 @@
         public void SendPayloadToFlowWithOutputObject()
         {
             AccumulatorOutput output = new AccumulatorOutput();
-            string result = null;
 
             var flow = Flow.Create()
                 .Output(output);
@@ -106,6 +105,21 @@
             flow.Post(1);
 
             Assert.AreEqual(2, result);
+        }
+
+        [TestMethod]
+        public void InputsAndStart()
+        {
+            int result = 0;
+
+            var flow = Flow.Create()
+                .Input(fl => fl.Post(1))
+                .Input(fl => fl.Post(2))
+                .Process(x => result += (int)x);
+
+            flow.Start();
+
+            Assert.AreEqual(3, result);
         }
 
         [TestMethod]
