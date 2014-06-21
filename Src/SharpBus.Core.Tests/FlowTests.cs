@@ -123,6 +123,20 @@
         }
 
         [TestMethod]
+        public void InputObjectAndStart()
+        {
+            int result = 0;
+
+            var flow = Flow.Create()
+                .Input(new IntegerGeneratorInput(3))
+                .Process(x => result += (int)x);
+
+            flow.Start();
+
+            Assert.AreEqual(6, result);
+        }
+
+        [TestMethod]
         public void RouterWithTwoBranches()
         {
             var flow = Flow.Create()
@@ -172,6 +186,22 @@
             }
 
             public int Total { get { return this.total; } }
+        }
+
+        private class IntegerGeneratorInput : IInput
+        {
+            private int number;
+
+            public IntegerGeneratorInput(int number)
+            {
+                this.number = number;
+            }
+
+            public void Start(Flow flow)
+            {
+                for (int k = 1; k <= this.number; k++)
+                    flow.Post(k);
+            }
         }
     }
 }

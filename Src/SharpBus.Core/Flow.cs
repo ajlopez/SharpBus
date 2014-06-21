@@ -32,6 +32,11 @@
             return this;
         }
 
+        public Flow Input(IInput input)
+        {
+            return this.Input(input.Start);
+        }
+
         public void Start()
         {
             foreach (var input in this.inputs)
