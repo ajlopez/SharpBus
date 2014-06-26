@@ -145,7 +145,7 @@
                     .Transform(x => (int)x / 2)
                 .EndBranch()
                 .Branch("Odd")
-                    .Transform(x => (int)x * 3 + 1)
+                    .Transform(x => ((int)x * 3) + 1)
                 .EndBranch();
 
             flow.Post(1);
@@ -168,24 +168,24 @@
         {
             private int total = 0;
 
+            public int Total { get { return this.total; } }
+
             public void Process(object payload)
             {
-                total += (int)payload;
+                this.total += (int)payload;
             }
-
-            public int Total { get { return this.total; } }
         }
 
         private class AccumulatorOutput : IOutput
         {
             private int total = 0;
 
+            public int Total { get { return this.total; } }
+
             public void Consume(object payload)
             {
-                total += (int)payload;
+                this.total += (int)payload;
             }
-
-            public int Total { get { return this.total; } }
         }
 
         private class IntegerGeneratorInput : IInput
