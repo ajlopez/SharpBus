@@ -40,6 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IMessageProcessor.cs" />
+    <Compile Include="IMessageTransformer.cs" />
     <Compile Include="IInput.cs" />
     <Compile Include="IOutput.cs" />
     <Compile Include="IProcessor.cs" />

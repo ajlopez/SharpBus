@@ -65,6 +65,12 @@
             return this.Process(processor.Process);
         }
 
+        public Flow Process(IMessageProcessor processor)
+        {
+            this.steps.Add(msg => { processor.Process(msg); return msg; });
+            return this;
+        }
+
         public Flow Route(Func<object, string> router)
         {
             this.Transform(payload =>

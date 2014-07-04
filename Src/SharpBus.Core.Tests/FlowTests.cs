@@ -94,6 +94,19 @@
         }
 
         [TestMethod]
+        public void ApplyMessageProcessor()
+        {
+            AccumulatorMessageProcessor processor = new AccumulatorMessageProcessor();
+
+            var flow = Flow.Create().Process(processor);
+
+            flow.Send(1);
+            flow.Send(2);
+
+            Assert.AreEqual(3, processor.Total);
+        }
+
+        [TestMethod]
         public void PostTransformWithOutput()
         {
             int result = 0;
@@ -173,6 +186,18 @@
             public void Process(object payload)
             {
                 this.total += (int)payload;
+            }
+        }
+
+        private class AccumulatorMessageProcessor : IMessageProcessor
+        {
+            private int total = 0;
+
+            public int Total { get { return this.total; } }
+
+            public void Process(Message message)
+            {
+                this.total += (int)message.Payload;
             }
         }
 
