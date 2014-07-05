@@ -68,6 +68,14 @@
         }
 
         [TestMethod]
+        public void ApplyMessageTransformer()
+        {
+            var flow = Flow.Create().Transform(new IncrementMessageTransformer());
+
+            Assert.AreEqual(2, flow.Send(1));
+        }
+
+        [TestMethod]
         public void ApplyProcess()
         {
             int total = 0;
@@ -174,6 +182,14 @@
             public object Transform(object payload)
             {
                 return (int)payload + 1;
+            }
+        }
+
+        private class IncrementMessageTransformer : IMessageTransformer
+        {
+            public Message Transform(Message message)
+            {
+                return new Message((int)message.Payload + 1);
             }
         }
 

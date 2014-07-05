@@ -54,6 +54,12 @@
             return this.Transform(transformer.Transform);
         }
 
+        public Flow Transform(IMessageTransformer transformer)
+        {
+            this.steps.Add(msg => transformer.Transform(msg));
+            return this;
+        }
+
         public Flow Process(Action<object> process)
         {
             this.steps.Add(msg => { process(msg.Payload); return msg; });
