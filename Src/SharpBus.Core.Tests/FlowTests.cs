@@ -177,6 +177,26 @@
             Assert.AreEqual(10, flow.Send(3));
         }
 
+        [TestMethod]
+        public void RouterObjectWithTwoBranches()
+        {
+            var flow = Flow.Create()
+                .Route(new EvenOddRouter())
+                .Branch("Even")
+                    .Transform(x => (int)x / 2)
+                .EndBranch()
+                .Branch("Odd")
+                    .Transform(x => ((int)x * 3) + 1)
+                .EndBranch();
+
+            flow.Post(1);
+
+            Assert.AreEqual(0, flow.Send(0));
+            Assert.AreEqual(4, flow.Send(1));
+            Assert.AreEqual(1, flow.Send(2));
+            Assert.AreEqual(10, flow.Send(3));
+        }
+
         private class IncrementTransformer : ITransformer
         {
             public object Transform(object payload)
@@ -242,6 +262,14 @@
             {
                 for (int k = 1; k <= this.number; k++)
                     flow.Post(k);
+            }
+        }
+
+        private class EvenOddRouter : IRouter
+        {
+            public string Route(object payload)
+            {
+                return ((int)payload) % 2 == 0 ? "Even" : "Odd";
             }
         }
     }

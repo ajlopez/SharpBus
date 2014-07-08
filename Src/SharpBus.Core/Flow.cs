@@ -88,6 +88,11 @@
             return this;
         }
 
+        public Flow Route(IRouter router)
+        {
+            return this.Route(router.Route);
+        }
+
         public Flow Output(Action<object> process)
         {
             this.steps.Add(msg => { process(msg.Payload); return null; });
