@@ -93,6 +93,17 @@
             return this.Route(router.Route);
         }
 
+        public Flow Route(IMessageRouter router)
+        {
+            this.steps.Add(message =>
+            {
+                var branchname = router.Route(message);
+                return this.SendToBranch(branchname, message);
+            });
+
+            return this;
+        }
+
         public Flow Output(Action<object> process)
         {
             this.steps.Add(msg => { process(msg.Payload); return null; });
@@ -120,6 +131,16 @@
         {
             Message message = new Message(payload);
 
+            var result = this.Send(message);
+
+            if (result == null)
+                return null;
+
+            return result.Payload;
+        }
+
+        public Message Send(Message message)
+        {
             foreach (var step in this.steps)
             {
                 message = step(message);
@@ -130,7 +151,7 @@
             if (message == null)
                 return null;
 
-            return message.Payload;
+            return message;
         }
 
         public void Post(object payload)
@@ -148,6 +169,11 @@
         private object SendToBranch(string branchname, object payload)
         {
             return this.branches[branchname].Send(payload);
+        }
+
+        private Message SendToBranch(string branchname, Message message)
+        {
+            return this.branches[branchname].Send(message);
         }
     }
 }
