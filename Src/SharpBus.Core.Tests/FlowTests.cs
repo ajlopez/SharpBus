@@ -26,6 +26,14 @@
         }
 
         [TestMethod]
+        public void SendMessageToEmptyFlow()
+        {
+            var flow = Flow.Create();
+
+            Assert.AreEqual(1, flow.Send(new Message(1)).Payload);
+        }
+
+        [TestMethod]
         public void SendPayloadToFlowWithOutput()
         {
             string result = null;
@@ -38,7 +46,19 @@
         }
 
         [TestMethod]
-        public void SendPayloadToFlowWithOutputObject()
+        public void SendMessageToFlowWithOutput()
+        {
+            string result = null;
+
+            var flow = Flow.Create()
+                .Output(x => result = (string)x);
+
+            Assert.IsNull(flow.Send(new Message("foo")));
+            Assert.AreEqual("foo", result);
+        }
+
+        [TestMethod]
+        public void PostPayloadToFlowWithOutputObject()
         {
             AccumulatorOutput output = new AccumulatorOutput();
 
@@ -52,7 +72,7 @@
         }
 
         [TestMethod]
-        public void SendMessageToFlowWithOutputObject()
+        public void PostMessageToFlowWithOutputObject()
         {
             AccumulatorOutput output = new AccumulatorOutput();
 
