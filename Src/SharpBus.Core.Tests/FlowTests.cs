@@ -52,6 +52,20 @@
         }
 
         [TestMethod]
+        public void SendMessageToFlowWithOutputObject()
+        {
+            AccumulatorOutput output = new AccumulatorOutput();
+
+            var flow = Flow.Create()
+                .Output(output);
+
+            flow.Post(new Message(1));
+            flow.Post(new Message(2));
+
+            Assert.AreEqual(3, output.Total);
+        }
+
+        [TestMethod]
         public void ApplyTransformToInteger()
         {
             var flow = Flow.Create().Transform(x => ((int)x) + 1);

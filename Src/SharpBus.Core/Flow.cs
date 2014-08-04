@@ -158,6 +158,11 @@
         {
             Message message = new Message(payload);
 
+            this.Post(message);
+        }
+
+        public void Post(Message message)
+        {
             foreach (var step in this.steps)
             {
                 message = step(message);
