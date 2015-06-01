@@ -9,16 +9,31 @@
     <milliseconds>237</milliseconds>
     <violations />
   </sourcecode>
-  <project key="211513060">
-    <configuration>DEBUG;TRACE</configuration>
-  </project>
   <sourcecode name="FlowTests.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
     <settings>
       <timestamp>06/15/2014 19:32:31</timestamp>
       <milliseconds>681</milliseconds>
     </settings>
-    <timestamp>07/12/2014 15:22:24</timestamp>
-    <milliseconds>695</milliseconds>
+    <timestamp>12/20/2014 06:00:52</timestamp>
+    <milliseconds>566</milliseconds>
     <violations />
+  </sourcecode>
+  <project key="211513060">
+    <configuration>DEBUG;TRACE</configuration>
+  </project>
+  <sourcecode name="MessageTests.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>06/15/2014 19:32:31</timestamp>
+      <milliseconds>681</milliseconds>
+    </settings>
+    <timestamp>06/01/2015 07:22:37</timestamp>
+    <milliseconds>783</milliseconds>
+    <violations>
+      <violation namespace="Microsoft.StyleCop.CSharp.OrderingRules" rule="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace" ruleCheckId="SA1210">
+        <context>Using directives must be sorted alphabetically by the namespaces.</context>
+        <line>4</line>
+        <warning>False</warning>
+      </violation>
+    </violations>
   </sourcecode>
 </stylecopresultscache>
