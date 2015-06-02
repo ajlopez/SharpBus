@@ -13,6 +13,13 @@
         public Message(object payload)
         {
             this.payload = payload;
+            this.headers = new MessageHeaders();
+        }
+
+        public Message(object payload, MessageHeaders headers)
+        {
+            this.payload = payload;
+            this.headers = headers.Clone();
         }
 
         public object Payload { get { return this.payload; } internal set { this.payload = value; } }
@@ -37,6 +44,16 @@
                 {
                     this.values[name] = value;
                 }
+            }
+
+            internal MessageHeaders Clone()
+            {
+                MessageHeaders headers = new MessageHeaders();
+
+                foreach (var key in this.values.Keys)
+                    headers.values[key] = this.values[key];
+
+                return headers;
             }
         }
     }

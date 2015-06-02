@@ -26,5 +26,21 @@
 
             Assert.AreEqual("Bar", message.Headers["Foo"]);
         }
+
+        [TestMethod]
+        public void CloneHeaders()
+        {
+            Message message = new Message(null);
+            message.Headers["Foo"] = "Bar";
+
+            Message message2 = new Message(null, message.Headers);
+            message2.Headers["Foo"] = "Baz";
+            message2.Headers["Answer"] = 42;
+
+            Assert.AreEqual("Bar", message.Headers["Foo"]);
+            Assert.IsNull(message.Headers["Answer"]);
+            Assert.AreEqual("Baz", message2.Headers["Foo"]);
+            Assert.AreEqual(42, message2.Headers["Answer"]);
+        }
     }
 }
